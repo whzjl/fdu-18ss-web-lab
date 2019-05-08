@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>Chapter 10</title>
+<link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+<link rel="stylesheet" href="lab7.css">
+<script>
+</script>      
+</head>    
+<body class="tiled">
+<header>
+    <h1>Art Filters</h1>
+</header>
+<main>
+    <div id="sliderBox">
+        <form>
+           <label>Opacity: </label><p><input type="range" id="sliderOpacity" min="0" max="100" value="100" class="sliders" /> <span id="numOpacity">100</span>%</p>
+           <p><label>Saturation: </label><input type="range" id="sliderSaturation" min="1" max="300" value="100" class="sliders"/> <span id="numSaturation">100</span>%</p>
+           <p><label>Brightness: </label><input type="range" id="sliderBrightness" min="0" max="300" value="100" class="sliders" /> <span id="numBrightness">100</span>%</p>
+           <p><label>Hue Rotate: </label><input type="range" id="sliderHue" min="0" max="360" value="0" class="sliders" /> <span id="numHue">0</span>deg</p>
+           <p><label>Grayscale: </label><input type="range" id="sliderGray" min="0" max="100" value="0" class="sliders"/> <span id="numGray">0</span>%</p>
+           <p><label>Blur: </label><input type="range" id="sliderBlur" min="0" max="10" value="0" class="sliders" /> <span id="numBlur">0</span>px</p>
+           <p><input type="button" id="resetFilters" value="Reset" class="button_input"></p>
+        </form>    
+    </div>
+    <figure id="imgManipulated">
+        <img id="big_img" src="images/medium/painting1.jpg" >
+        <figcaption>
+            <em>Still Life with Flowers in a Glass Vase</em> <br>
+            Jan Davidsz. de Heem, 1650 - 1683
+        </figcaption>
+    </figure>
+    <div id="thumbBox">
+        <div><img id="img1" src="images/small/painting1.jpg"  alt="Still Life with Flowers in a Glass Vase" title="Jan Davidsz. de Heem, 1650 - 1683"/></div>
+        <div><img id="img2" src="images/small/painting2.jpg"  alt="Portrait of Alida Christina Assink" title="Jan Adam Kruseman, 1833"/></div>
+        <div><img id="img3" src="images/small/painting3.jpg"  alt="Self-portrait" title="Vincent van Gogh, 1887"/></div>
+        <div><img id="img4" src="images/small/painting4.jpg"  alt="William II, Prince of Orange, and his Bride, Mary Stuart" title="Anthony van Dyck, 1641"/></div>
+        <div><img id="img5" src="images/small/painting5.jpg"  alt="Milkmaid" title="Johannes Vermeer, c. 1660"/></div>
+    </div>
+
+
+</main>
+<script type="text/javascript">
+
+    window.onload = function () {
+        $('#sliderOpacity').on("input propertyChange", function () {
+            let sliderOpacity = $('#sliderOpacity');
+            $('#numOpacity').text(sliderOpacity.val());
+            filter();
+        });
+        $('#sliderSaturation').on("input propertyChange", function () {
+            let sliderSaturation = $('#sliderSaturation');
+            $('#numSaturation').text(sliderSaturation.val());
+            filter();
+        });
+        $('#sliderBrightness').on("input propertyChange", function () {
+            let sliderBrightness = $('#sliderBrightness');
+            $('#numBrightness').text(sliderBrightness.val());
+            filter();
+        });
+        $('#sliderHue').on("input propertyChange", function () {
+            let sliderHue = $('#sliderHue');
+            $('#numHue').text(sliderHue.val());
+            filter();
+        });
+        $('#sliderGray').on("input propertyChange", function () {
+            let sliderGray = $('#sliderGray');
+            $('#numGray').text(sliderGray.val());
+            filter();
+        });
+        $('#sliderBlur').on("input propertyChange", function () {
+            let sliderBlur = $('#sliderBlur');
+            $('#numBlur').text(sliderBlur.val());
+            filter();
+        });
+
+        $('#resetFilters').click(function () {
+            let big_img = $('#big_img');
+            big_img.css('-webkit-filter','none');
+            big_img.css('filter','none');
+        });
+
+        function filter(){
+            let sliderOpacity = $('#sliderOpacity');
+            let sliderSaturation = $('#sliderSaturation');
+            let sliderBrightness = $('#sliderBrightness');
+            let sliderHue = $('#sliderHue');
+            let sliderGray = $('#sliderGray');
+            let sliderBlur = $('#sliderBlur');
+
+            let big_img = $('#big_img');
+            big_img.css('-webkit-filter',
+                'opacity('+ sliderOpacity.val() +'%)' +
+                'saturate('+ sliderSaturation.val() +'%)' +
+                'brightness('+ sliderBrightness.val() +'%)' +
+                'hue-rotate('+ sliderHue.val() +'deg)' +
+                'grayscale('+ sliderGray.val() +'%)' +
+                'blur('+ sliderBlur.val() +'px)'
+            );
+            big_img.css('filter',
+                'opacity('+ sliderOpacity.val() +'%)' +
+                'saturate('+ sliderSaturation.val() +'%)' +
+                'brightness('+ sliderBrightness.val() +'%)' +
+                'hue-rotate('+ sliderHue.val() +'deg)' +
+                'grayscale('+ sliderGray.val() +'%)' +
+                'blur('+ sliderBlur.val() +'px)'
+            );
+        }
+
+
+        $(function() {
+            $('#img1').on({
+                click:function(){
+                    let img_src = $(this)
+                        .attr('src')
+                        .replace('small','medium');
+                    $('#big_img').attr('src', img_src);
+                    let img1 = $('#img1');
+                    $('figcaption').html('<em>'+ img1.attr('alt') +'</em><br/>'+ img1.attr('title'));
+                }
+            });
+            $('#img2').on({
+                click:function(){
+                    let img_src = $(this)
+                        .attr('src')
+                        .replace('small','medium');
+                    $('#big_img').attr('src', img_src);
+                    let img2 = $('#img2');
+                    $('figcaption').html('<em>'+ img2.attr('alt') +'</em><br/>'+ img2.attr('title'));
+                }
+            });
+            $('#img3').on({
+                click:function(){
+                    let img_src = $(this)
+                        .attr('src')
+                        .replace('small','medium');
+                    $('#big_img').attr('src', img_src);
+                    let img3 = $('#img3');
+                    $('figcaption').html('<em>'+ img3.attr('alt') +'</em><br/>'+ img3.attr('title'));
+                }
+            });
+            $('#img4').on({
+                click:function(){
+                    let img_src = $(this)
+                        .attr('src')
+                        .replace('small','medium');
+                    $('#big_img').attr('src', img_src);
+                    let img4 = $('#img4');
+                    $('figcaption').html('<em>'+ img4.attr('alt') +'</em><br/>'+ img4.attr('title'));
+                }
+            });
+            $('#img5').on({
+                click:function(){
+                    let img_src = $(this)
+                        .attr('src')
+                        .replace('small','medium');
+                    $('#big_img').attr('src', img_src);
+                    let img5 = $('#img5');
+                    $('figcaption').html('<em>'+ img5.attr('alt') +'</em><br/>'+ img5.attr('title'));
+                }
+            });
+        });
+    }
+
+</script>    
+</body>   
+</html>
